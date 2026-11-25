@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function ownsStudent(studentId) {
+      return request.auth != null && request.auth.uid == studentId;
+    }
+    function validProgress(data) {
+      return data is map
+        && data.keys().hasOnly(['done', 'stars'])
+        && data.done is map
+        && data.stars is int && data.stars >= 0 && data.stars <= 150;
+    }
+    match /students/{studentId} {
+      allow read: if ownsStudent(studentId);
+      allow create: if ownsStudent(studentId)
+        && request.resource.data.keys().hasOnly(['username','displayName','gradeGroup','progress','createdAt','updatedAt'])
+        && request.resource.data.username is string
+        && request.resource.data.username.matches('^[a-z0-9_]{3,16}$')
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() >= 1
+        && request.resource.data.displayName.size() <= 12
+        && request.resource.data.gradeGroup in ['1-2','3-4','5-6']
+        && validProgress(request.resource.data.progress);
+      allow update: if ownsStudent(studentId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['progress','updatedAt'])
+        && validProgress(request.resource.data.progress);
+      allow delete: if false;
+    }
+  }
+}
