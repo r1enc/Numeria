@@ -81,3 +81,10 @@ body{background:#f3faf7;color:var(--map-ink)}
 .map-stage-copy small{color:#c4b5fd!important}
 .map-stage-copy strong{color:#ffffff!important}
 .map-stage-copy em{color:#fbbf24!important}
+
+.map-scene{height:auto!important;min-height:0!important;padding:18px!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+.route,.scenery{display:none!important}
+.map-stage{position:relative!important;top:auto!important;left:auto!important;transform:none!important;width:100%!important;min-height:132px!important;padding:14px 10px!important;background:#1e1b4bcc!important;border:1.5px solid #4338ca!important;border-bottom:4px solid #312e81!important;border-radius:20px!important;gap:10px!important}
+.map-stage.active{border-color:#f97316!important;border-bottom-color:#c2410c!important;background:#2e1065e6!important}
+.map-stage.finished{border-color:#22c55e!important;border-bottom-color:#15803d!important}
+.map-stage-copy{background:transparent!important;border:0!important;padding:0!important}
