@@ -21,3 +21,4 @@ body{margin:0;min-width:320px;background-color:#0f172a;background-image:radial-g
 .primary{background:#f97316;color:#431407;border-bottom:4px solid #c2410c;border-radius:14px}
 .primary:hover{background:#fb923c}
 .finish-icon{background:#1e293b;color:#fbbf24;border:2px solid #334155}.finish-copy{color:#cbd5e1}
+html,body{background-color:#0f172a!important;color:#f8fafc;min-height:100vh}
