@@ -8,7 +8,7 @@ export const worlds = [
 const hintFor = prompt => /fraction|pecahan|\d+\/\d+|bagian yang sama/i.test(prompt) ? 'Perhatikan berapa bagian yang sama besar dan berapa bagian yang sedang dibahas.' : /pola|angka setelah|lanjutkan/i.test(prompt) ? 'Bandingkan dua langkah berurutan. Apa yang berubah setiap kali?' : /kelompok|pasangan|×|dibagi|kali/i.test(prompt) ? 'Coba gambar kelompoknya atau susun kemungkinan satu per satu.' : /lebih besar|jarak|diambil|tersisa|berapa semuanya/i.test(prompt) ? 'Gambarkan situasinya, lalu tentukan apa yang diminta.' : 'Pecah tantangan ini menjadi langkah kecil. Informasi apa yang sudah diketahui?';
 const q = (prompt, answer, choices, explain, visual = '', hint = hintFor(prompt)) => ({ prompt, answer: String(answer), choices: choices.map(String), explain, visual, hint });
 function choice(answer, others, explain, prompt, visual = '', hint = hintFor(prompt)) {
-  const correct = String(answer), values = [...new Set([correct, ...others.map(String)])];
+  const correct = String(answer), values = [correct, ...new Set(others.map(String).filter(item => item !== correct))].slice(0, 4);
   if (values.length < 4 && !Number.isFinite(Number(correct))) throw new Error(`Soal perlu empat pilihan unik: ${prompt}`);
   for (let n = 1; values.length < 4; n++) if (!values.includes(String(Number(correct) + n))) values.push(String(Number(correct) + n));
   for (let i = values.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [values[i], values[j]] = [values[j], values[i]]; }
