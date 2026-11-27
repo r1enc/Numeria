@@ -1,0 +1,83 @@
+.galaxy-level,.world-level{--space-ink:#f4f7ff;--space-muted:#acbbd7;--space-line:#7182ae52;position:relative;width:min(1160px,calc(100% - 40px));max-width:1160px;min-height:100svh;padding-bottom:20px;color:var(--space-ink);background-color:#080f25;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#a8c5ff 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#d8ccff 45%,transparent 60%),radial-gradient(1px 1px at 52% 43%,#fff 45%,transparent 60%),radial-gradient(ellipse at 75% 4%,#29286055,transparent 42%),linear-gradient(155deg,#101a39,#090f25 58%,#111331);}
+.galaxy-level .topbar,.world-level .topbar{border-color:var(--space-line)}
+.galaxy-level .brand,.world-level .brand{color:#f4f7ff}
+.galaxy-level .brand-mark,.world-level .brand-mark{background:#64cbe2;color:#0b1730;box-shadow:0 4px 0 #308da7}
+.galaxy-level .stat,.world-level .stat,.galaxy-level .account-chip,.world-level .account-chip{background:#141d39;border-color:#64769d66;color:#edf5ff}
+.galaxy-level .star,.world-level .star{color:#ffd16c}
+.galaxy-intro{padding:25px 4px 16px}
+.galaxy-intro h1,.world-intro h1{color:#f4f7ff}
+.galaxy-intro h1 em{color:#81e0e9;font-style:normal}
+.galaxy-intro .eyebrow,.galaxy-intro>div:first-child>p:last-child{color:var(--space-muted)}
+.galaxy-level .map-progress-badge{background:#121d38;border-color:#7182ae66;box-shadow:none}
+.galaxy-level .map-progress-badge strong{color:#80e3eb}
+.galaxy-level .map-progress-badge small,.galaxy-level .map-progress-badge span{color:#aebddb}
+.galaxy-viewport{position:relative;width:100%;height:min(58dvh,540px);min-height:350px;overflow:auto;border:1px solid #7585b359;border-radius:25px;background-color:#080e22;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#a8c5ff 45%,transparent 60%),radial-gradient(2px 2px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 91% 61%,#e2ceff 45%,transparent 60%),radial-gradient(1px 1px at 52% 43%,#fff 45%,transparent 60%),radial-gradient(ellipse at 54% 48%,#24255c4d,transparent 54%),linear-gradient(145deg,#0c1831,#090f23 65%,#10132d);scrollbar-color:#6076a5 transparent;scrollbar-width:thin;cursor:grab;touch-action:pan-x pan-y;overscroll-behavior:contain;}
+.galaxy-viewport:active{cursor:grabbing}
+.galaxy-viewport.dragged .galaxy-planet{pointer-events:none}
+.galaxy-canvas{position:relative;width:1120px;height:620px;isolation:isolate}
+.galaxy-routes{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.galaxy-routes path{fill:none;stroke:#b6c9ed70;stroke-width:2}
+.galaxy-routes .route-dots{stroke:#83e5e8;stroke-width:2;stroke-dasharray:2 10;opacity:.9}
+.galaxy-routes circle{fill:#ffe4a2;stroke:#f5e8c4aa;stroke-width:5}
+.galaxy-planet{position:absolute;left:var(--planet-x);top:var(--planet-y);z-index:1;transform:translate(-50%,-50%);width:180px;min-height:170px;padding:2px 8px 9px;display:grid;justify-items:center;gap:1px;border:0;border-radius:24px;background:transparent;color:var(--space-ink);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;scroll-snap-align:center;animation:planet-arrive .5s ease both;animation-delay:var(--planet-delay)}
+.planet-art{display:grid;place-items:center;width:132px;height:118px;transition:transform .25s,opacity .25s}
+.planet-art svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 8px 13px #02071988)}
+.galaxy-planet:hover .planet-art,.galaxy-planet:focus-visible .planet-art{transform:translateY(-5px) scale(1.05)}
+.planet-label{max-width:174px;padding:5px 10px 6px;display:grid;gap:1px;text-align:center;border:1px solid #9fafd94a;border-radius:12px;background:#0d1735e8;box-shadow:0 5px 13px #02061540}
+.planet-label small{font-size:8px;letter-spacing:1.3px;font-weight:800;color:#99b9d7}
+.planet-label strong{font:750 12px/1.2 Manrope,sans-serif;color:#f4f7ff}
+.planet-label em{font-size:9px;line-height:1.25;color:#aabbd5;font-style:normal}
+.galaxy-planet.locked .planet-art{opacity:.48}
+.galaxy-planet.locked .planet-label{border-color:#7c83a044;background:#0e1429d9}
+.planet-lock{position:absolute;top:9px;right:26px;width:29px;height:29px;border:1px solid #bac8e877;border-radius:50%;display:grid;place-items:center;background:#1a2340;color:#d1dcf2;font-size:20px;line-height:1}
+.galaxy-planet.entering .planet-art{transform:scale(3.4);opacity:0}
+.galaxy-planet:focus-visible,.world-tab:focus-visible,.map-stage:focus-visible,.galaxy-pan:focus-visible,.back-button:focus-visible{outline:3px solid #82e2ed;outline-offset:4px}
+.galaxy-controls,.world-controls{display:flex;justify-content:center;align-items:center;gap:13px;min-height:58px;color:#a9b9d6}
+.galaxy-controls p,.world-controls p{font-size:11px;text-align:center}
+.galaxy-pan,.back-button{flex:0 0 48px;width:48px;height:48px;display:grid;place-items:center;border:1px solid #7182ae66;border-radius:15px;background:#16213d;color:#eff7ff;font-size:21px;touch-action:manipulation;}
+.galaxy-pan:hover,.back-button:hover{background:#263457}
+.galaxy-tabs{justify-content:center;padding:4px 0 10px}
+.galaxy-tabs .world-tab{--tab:#82dce6;--tab-bg:#182c48;background:#101a33;border-color:#62749a88;color:#c4d3ec}
+.galaxy-tabs .world-tab.selected{box-shadow:0 0 0 2px #0c142c,0 0 0 4px #82dce6}
+.galaxy-tabs .world-tab.mint{--tab:#86e5bd;--tab-bg:#153b38}.galaxy-tabs .world-tab.peach{--tab:#ffba88;--tab-bg:#402b36}.galaxy-tabs .world-tab.lilac{--tab:#c5a5ff;--tab-bg:#302549}.galaxy-tabs .world-tab.blue{--tab:#87dfe8;--tab-bg:#173444}.galaxy-tabs .world-tab.gold{--tab:#ffdc83;--tab-bg:#403820}
+.galaxy-level footer,.world-level footer{max-width:none;padding:16px 3px 12px;color:#8fa1c1}
+.world-toolbar{display:flex;align-items:center;gap:11px;padding:15px 2px 2px;color:#afbdd8;font-size:10px;font-weight:800;letter-spacing:1px}
+.world-toolbar .back-button{width:48px;height:48px}
+.world-toolbar i{font-style:normal;color:#64d5de;padding:0 3px}
+.world-intro{padding:13px 3px 18px;color:#edf4ff}
+.world-intro .world-kicker{color:#8ddde7}
+.world-intro h1{font:800 clamp(22px,4vw,30px)/1.15 Manrope,sans-serif;margin:4px 0;letter-spacing:-.8px}
+.world-intro p{font-size:11px;color:#aebbd5;margin:0}
+.world-level .map-progress-label{color:#ffda83}
+.world-level .map-progress-label small{color:#b7c6df}
+.world-map-scroll{width:100%;overflow-x:auto;overflow-y:hidden;border:1px solid #7888b55c;border-radius:24px;background:#090f25;scroll-snap-type:x mandatory;scrollbar-color:#6577a1 #101a34;scrollbar-width:thin;overscroll-behavior-x:contain;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
+.world-track{position:relative;width:1480px;height:460px}
+.world-track .map-scene{--land:#101b37;--hills:#1b2d50;--route:#7bdce5;width:1480px;height:460px;max-width:none;margin:0;padding:0;border:0;border-radius:23px;overflow:hidden;background-color:#0a1229;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#a8c5ff 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#d8ccff 45%,transparent 60%),radial-gradient(1px 1px at 52% 43%,#fff 45%,transparent 60%),radial-gradient(ellipse at 50% 50%,#23225248,transparent 58%),linear-gradient(125deg,#0e1933,#0a1026 65%,#121532);box-shadow:none}
+.world-track .map-scene.peach{--route:#ffbd8b;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#ffe4c4 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#ffd3b3 45%,transparent 60%),radial-gradient(ellipse at 50% 50%,#44294460,transparent 58%),linear-gradient(125deg,#241a31,#161329 65%,#2a1b2c)}
+.world-track .map-scene.lilac{--route:#c6a8ff;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#d6ccff 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#e3caff 45%,transparent 60%),radial-gradient(ellipse at 50% 50%,#38285d66,transparent 58%),linear-gradient(125deg,#1a1936,#17132e 65%,#251b3c)}
+.world-track .map-scene.blue{--route:#83dce8;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#b8eaff 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#a5ddff 45%,transparent 60%),radial-gradient(ellipse at 50% 50%,#1c486466,transparent 58%),linear-gradient(125deg,#102337,#0b1830 65%,#122b38)}
+.world-track .map-scene.gold{--route:#ffdb82;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#fff0bc 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#ffdf9b 45%,transparent 60%),radial-gradient(ellipse at 50% 50%,#65522655,transparent 58%),linear-gradient(125deg,#292319,#191824 65%,#30271b)}
+.world-track .route{z-index:0}
+.world-track .route path{stroke:#c9d8ff55;stroke-width:11}
+.world-track .route .route-highlight{stroke:var(--route);stroke-width:3;stroke-dasharray:2 12;opacity:.95}
+.world-scenery{position:absolute;inset:0;display:flex;justify-content:space-around;align-items:center;color:#cad9ff27;font-size:28px;letter-spacing:18px;pointer-events:none}
+.world-track .map-stage{left:var(--x);top:var(--y);width:146px;min-height:142px;gap:4px;padding:4px 2px;border-radius:20px;scroll-snap-align:center;}
+.world-track .map-stage-orb{width:82px;height:82px}
+.world-track .map-stage-number{position:absolute;top:-2px;right:calc(50% - 51px);z-index:2;min-width:29px;height:27px;padding:0 5px;display:grid;place-items:center;border:2px solid #dce8ff;border-radius:10px;background:#253d68;color:white;font:800 10px Manrope;box-shadow:0 3px 10px #0307168a}
+.world-track .map-stage.active .map-stage-number{background:#5bdbd1;color:#082331;border-color:#efffff}
+.world-track .map-stage.finished .map-stage-number{background:#ffc95e;color:#35250b;border-color:#fff2ca}
+.world-track .map-stage.locked .map-stage-number{background:#2a3044;color:#c4cada;border-color:#9da7bc}
+.world-track .map-stage-copy{min-height:47px;width:136px;max-width:136px;padding:5px 5px 3px;gap:2px;border-radius:11px;border-color:#9aabd05c;background:#0e1835e8;box-shadow:0 5px 13px #02071755}
+.world-track .map-stage-copy small{color:#9fb5d7;font-size:7px}
+.world-track .map-stage-copy strong{color:#f4f7ff;font-size:9px;line-height:1.2}
+.world-track .map-stage-copy em{font-size:8px;color:#8de4df}
+.stage-stars{font-size:11px;line-height:1;color:#7486aa;letter-spacing:2px}
+.map-stage.finished .stage-stars{color:#ffd16c}
+.world-controls{min-height:64px}
+.world-level .map-notice,.galaxy-level .map-notice{position:fixed;z-index:5;bottom:18px;left:50%;transform:translate(-50%,8px);margin:0;background:#19264a;border:1px solid #7d8fb45c;color:#f4f7ff;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.world-level .map-notice.visible,.galaxy-level .map-notice.visible{opacity:1;transform:translate(-50%,0)}
+.world-level .map-heading h2{font-family:Manrope,sans-serif}
+@keyframes planet-arrive{from{opacity:0;transform:translate(-50%,-46%) scale(.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media(max-width:700px){.galaxy-level,.world-level{width:calc(100% - 24px);padding-bottom:12px}.galaxy-intro{padding:20px 2px 13px}.galaxy-intro h1{font-size:25px}.galaxy-intro>div:first-child>p:last-child{font-size:10px}.galaxy-viewport{height:min(58dvh,500px);min-height:360px;border-radius:21px}.galaxy-canvas{width:1080px;height:600px}.galaxy-planet{width:168px;min-height:155px}.planet-art{width:118px;height:106px}.planet-label{max-width:160px;padding:5px 8px}.planet-label strong{font-size:11px}.planet-lock{right:22px}.galaxy-tabs{gap:7px}.galaxy-tabs .world-tab{flex-basis:51px;height:53px;min-height:53px}.galaxy-controls,.world-controls{gap:9px;min-height:56px}.galaxy-controls p,.world-controls p{font-size:10px}.world-toolbar{padding-top:11px}.world-intro{padding:11px 2px 15px}.world-map-scroll{width:calc(100% + 24px);margin-left:-12px;border-radius:20px}.world-track{width:1480px;height:420px}.world-track .map-scene{height:420px}.world-track .map-stage{width:138px;min-height:138px}.world-track .map-stage-orb{width:76px;height:76px}.world-track .map-stage-copy{width:130px;max-width:130px}.world-level footer,.galaxy-level footer{padding:14px 2px 8px}}
+@media(max-width:360px){.galaxy-level,.world-level{width:calc(100% - 18px)}.galaxy-intro h1{font-size:23px}.galaxy-viewport{min-height:340px}.world-map-scroll{width:calc(100% + 18px);margin-left:-9px}.world-toolbar{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.galaxy-planet{animation:none}.galaxy-planet.entering .planet-art{transform:none;opacity:0}}
