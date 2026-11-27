@@ -97,7 +97,7 @@
 .galaxy-viewport::-webkit-scrollbar,.world-map-scroll::-webkit-scrollbar{display:none}
 .world-map-scroll{scrollbar-width:none}
 @media(max-width:700px){.galaxy-canvas{height:460px}.galaxy-viewport{height:min(54dvh,480px)}}
-.galaxy-guide{display:grid;gap:11px;margin:13px 2px 0;padding:13px 14px 14px;border:1px solid #7182ae45;border-radius:19px;background:linear-gradient(120deg,#121f3b,#0d1730);box-shadow:0 10px 28px #03091a30}
+.galaxy-guide{display:grid;gap:11px;margin:0 2px 12px;padding:13px 14px 14px;border:1px solid #7182ae45;border-radius:19px;background:linear-gradient(120deg,#121f3b,#0d1730);box-shadow:0 10px 28px #03091a30}
 .galaxy-guide-heading{display:flex;align-items:center;gap:10px}
 .guide-emblem{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border:1px solid #72d5df58;border-radius:11px;background:#142c45;color:#83e1e8;font-size:17px}
 .galaxy-guide-heading div{display:grid;gap:2px}
@@ -106,7 +106,7 @@
 .galaxy-guide-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
 .galaxy-guide-steps li{min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid #6679a03b;border-radius:12px;background:#0d1830;color:#c5d2eb;font-size:9px;font-weight:650;text-align:center}
 .galaxy-guide-steps li span{width:21px;height:21px;display:grid;place-items:center;border-radius:7px;background:#1a2e4a;color:#7ddde5;font-size:8px;font-weight:800}
-@media(max-width:700px){.galaxy-guide{margin:11px 1px 0;padding:11px 11px 12px;gap:9px}.galaxy-guide-heading strong{font-size:12px}.galaxy-guide-steps{gap:6px}.galaxy-guide-steps li{min-height:48px;font-size:8px}}
+@media(max-width:700px){.galaxy-guide{margin:0 1px 10px;padding:11px 11px 12px;gap:9px}.galaxy-guide-heading strong{font-size:12px}.galaxy-guide-steps{gap:6px}.galaxy-guide-steps li{min-height:48px;font-size:8px}}
 .world-track .map-scene{height:360px!important;min-height:0!important;padding:0!important;display:block!important;flex:0 0 1480px!important;flex-direction:initial!important;gap:0!important;overflow:hidden!important;align-items:initial!important;scroll-snap-type:none!important;border:0!important;background-color:#0a1229!important;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#a8c5ff 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#d8ccff 45%,transparent 60%),radial-gradient(ellipse at 50% 50%,color-mix(in srgb,var(--route) 20%,transparent),transparent 58%),linear-gradient(125deg,#0e1933,#0a1026 65%,#121532)!important}
 .world-track .map-stage{position:absolute!important;top:var(--y)!important;left:var(--x)!important;transform:translate(-50%,-50%)!important;flex:0 0 auto!important;width:146px!important;max-width:none!important;min-height:142px!important;padding:4px 2px!important;background:transparent!important;border:0!important;border-bottom:0!important;border-radius:20px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important}
 .world-track .map-stage.active,.world-track .map-stage.finished{border:0!important;border-bottom:0!important;background:transparent!important}
