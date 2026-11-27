@@ -13,17 +13,33 @@ service cloud.firestore {
     match /students/{studentId} {
       allow read: if ownsStudent(studentId);
       allow create: if ownsStudent(studentId)
-        && request.resource.data.keys().hasOnly(['username','displayName','gradeGroup','progress','createdAt','updatedAt'])
+        && request.resource.data.keys().hasOnly(['username','displayName','gradeGroup','leaderboardId','progress','createdAt','updatedAt'])
         && request.resource.data.username is string
         && request.resource.data.username.matches('^[a-z0-9_]{3,16}$')
         && request.resource.data.displayName is string
         && request.resource.data.displayName.size() >= 1
         && request.resource.data.displayName.size() <= 12
         && request.resource.data.gradeGroup in ['1-2','3-4','5-6']
+        && request.resource.data.leaderboardId is string
+        && request.resource.data.leaderboardId.matches('^[a-f0-9]{32}$')
         && validProgress(request.resource.data.progress);
       allow update: if ownsStudent(studentId)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['progress','updatedAt'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['progress','updatedAt','leaderboardId'])
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['leaderboardId']) || !('leaderboardId' in resource.data))
+        && (!('leaderboardId' in request.resource.data) || request.resource.data.leaderboardId.matches('^[a-f0-9]{32}$'))
         && validProgress(request.resource.data.progress);
+      allow delete: if false;
+    }
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow create, update: if request.auth != null
+        && get(/databases/$(database)/documents/students/$(request.auth.uid)).data.leaderboardId == entryId
+        && request.resource.data.keys().hasOnly(['alias','stars','updatedAt'])
+        && request.resource.data.alias is string
+        && request.resource.data.alias.matches('^Penjelajah [A-F0-9]{4}$')
+        && request.resource.data.stars is int
+        && request.resource.data.stars >= 0 && request.resource.data.stars <= 150
+        && request.resource.data.stars == get(/databases/$(database)/documents/students/$(request.auth.uid)).data.progress.stars;
       allow delete: if false;
     }
   }

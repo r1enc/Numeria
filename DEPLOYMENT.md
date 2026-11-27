@@ -17,7 +17,7 @@ Keep the framework preset as Vite if Cloudflare asks for one. The repository pin
 
 ## 3. Configure Firebase (optional)
 
-Guest play works without Firebase. To enable student sign-in and cloud progress sync, copy the `VITE_FIREBASE_*` values from the Firebase web app into the Pages **Build → Environment variables** settings for both Production and Preview as needed. Publish the rules in `firestore.rules` to the matching Firebase project.
+Guest play works without Firebase. To enable student sign-in, cloud progress sync, and the global leaderboard, copy the `VITE_FIREBASE_*` values from the Firebase web app into the Pages **Build → Environment variables** settings for both Production and Preview as needed. Publish the updated rules in `firestore.rules` to the matching Firebase project; the leaderboard will not load until those rules are published.
 
 Do not add `.env.local`, Firebase service-account credentials, or other private credentials to Git.
 

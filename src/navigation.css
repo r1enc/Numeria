@@ -107,6 +107,35 @@
 .galaxy-guide-steps li{min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid #6679a03b;border-radius:12px;background:#0d1830;color:#c5d2eb;font-size:9px;font-weight:650;text-align:center}
 .galaxy-guide-steps li span{width:21px;height:21px;display:grid;place-items:center;border-radius:7px;background:#1a2e4a;color:#7ddde5;font-size:8px;font-weight:800}
 @media(max-width:700px){.galaxy-guide{margin:0 1px 10px;padding:11px 11px 12px;gap:9px}.galaxy-guide-heading strong{font-size:12px}.galaxy-guide-steps{gap:6px}.galaxy-guide-steps li{min-height:48px;font-size:8px}}
+.leaderboard-link{width:38px;height:38px;display:grid;place-items:center;border:1px solid #6877e0;border-radius:13px;background:#202a4b;color:#ffe38a;font-size:18px;text-decoration:none}
+.leaderboard-page{min-height:100svh;display:flex;flex-direction:column}
+.leaderboard-back{align-self:flex-start;margin:18px 0 4px;padding:9px 12px;border:1px solid #566486;border-radius:12px;background:#18223f;color:#dbeafe;font-size:12px;font-weight:700}
+.leaderboard-heading{padding:22px 2px 18px}
+.leaderboard-heading .eyebrow{color:#91a7cc}
+.leaderboard-heading h1{margin:0;color:#f1f5f9;font:800 clamp(27px,5vw,38px)/1.15 Manrope,sans-serif;letter-spacing:-1.3px}
+.leaderboard-heading h1 em{color:#ffc857;font-style:normal}
+.leaderboard-heading>p:last-child{margin:8px 0 0;color:#a8bad9;font-size:13px}
+.leaderboard-card{overflow:hidden;border:1px solid #60719866;border-radius:20px;background:linear-gradient(145deg,#182440,#111b34);box-shadow:0 15px 38px #050a183d}
+.leaderboard-title{display:flex;align-items:center;gap:12px;padding:17px 18px;border-bottom:1px solid #50608255}
+.leaderboard-title>span{font-size:25px}
+.leaderboard-title div{display:grid;gap:3px}
+.leaderboard-title strong{color:#f1f5f9;font-size:14px}
+.leaderboard-title small{color:#9eb0d0;font-size:10px}
+.leaderboard-list{padding:5px 14px}
+.leaderboard-row{min-height:58px;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:10px;border-bottom:1px solid #5060823d}
+.leaderboard-row:last-child{border-bottom:0}
+.leaderboard-row.current-player{margin:0 -14px;padding:0 14px;background:#23365b}
+.leaderboard-rank{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#263451;color:#b8c8e5;font-size:11px;font-weight:800}
+.leaderboard-rank.rank-1{background:#594521;color:#ffe08b}
+.leaderboard-rank.rank-2{background:#39445d;color:#e4eaf5}
+.leaderboard-rank.rank-3{background:#593e32;color:#ffc294}
+.leaderboard-row>strong{color:#f0f5ff;font-size:13px}
+.leaderboard-stars{color:#ffd15e;font-size:12px;font-weight:800}
+.leaderboard-message{margin:0;padding:26px 10px;color:#b9c7df;font-size:12px;line-height:1.6;text-align:center}
+.leaderboard-note{margin:13px 2px 0;color:#93a6c8;font-size:10px;line-height:1.55}
+.leaderboard-note button{padding:0;border:0;background:none;color:#ffe080;font-size:inherit;font-weight:800;text-decoration:underline}
+.leaderboard-page footer{margin-top:auto}
+@media(max-width:700px){.leaderboard-heading{padding:18px 2px 15px}.leaderboard-heading>p:last-child{font-size:11px}.leaderboard-list{padding-inline:10px}.leaderboard-row{min-height:54px;grid-template-columns:38px 1fr auto;gap:8px}.leaderboard-row.current-player{margin-inline:-10px;padding-inline:10px}.leaderboard-rank{width:32px;height:32px}.leaderboard-row>strong{font-size:12px}}
 .world-track .map-scene{height:360px!important;min-height:0!important;padding:0!important;display:block!important;flex:0 0 1480px!important;flex-direction:initial!important;gap:0!important;overflow:hidden!important;align-items:initial!important;scroll-snap-type:none!important;border:0!important;background-color:#0a1229!important;background-image:radial-gradient(1.5px 1.5px at 8% 18%,#fff 45%,transparent 60%),radial-gradient(1px 1px at 74% 12%,#a8c5ff 45%,transparent 60%),radial-gradient(1px 1px at 33% 71%,#fff 45%,transparent 60%),radial-gradient(2px 2px at 91% 61%,#d8ccff 45%,transparent 60%),radial-gradient(ellipse at 50% 50%,color-mix(in srgb,var(--route) 20%,transparent),transparent 58%),linear-gradient(125deg,#0e1933,#0a1026 65%,#121532)!important}
 .world-track .map-stage{position:absolute!important;top:var(--y)!important;left:var(--x)!important;transform:translate(-50%,-50%)!important;flex:0 0 auto!important;width:146px!important;max-width:none!important;min-height:142px!important;padding:4px 2px!important;background:transparent!important;border:0!important;border-bottom:0!important;border-radius:20px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important}
 .world-track .map-stage.active,.world-track .map-stage.finished{border:0!important;border-bottom:0!important;background:transparent!important}

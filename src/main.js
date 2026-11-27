@@ -1,5 +1,5 @@
 import { worlds, getStageQuestions } from './content.js';
-import { firebaseReady, signInStudent, createStudent, signOutStudent, watchStudent, getStudentProgress, saveStudentProgress } from './firebase.js';
+import { firebaseReady, signInStudent, createStudent, signOutStudent, watchStudent, getStudentProgress, saveStudentProgress, getLeaderboard } from './firebase.js';
 import './style.css';
 import './map.css';
 import './diorama.css';
@@ -12,24 +12,49 @@ const progress = { done: saved.done || {}, stars: saved.stars || 0, current: nul
 const app = document.querySelector('#app');
 let selectedWorld = null, guestSession = false;
 const mapPoints = [[90,65],[230,28],[370,62],[510,28],[650,65],[790,28],[930,62],[1070,28],[1210,62],[1350,28]];
-function save() { const data = { done: progress.done, stars: progress.stars }; try { localStorage.setItem(storageKey, JSON.stringify(data)); } catch {} if (student && firebaseReady) saveStudentProgress(student.uid, data).catch(() => {}); }
+function save() { const data = { done: progress.done, stars: progress.stars }; try { localStorage.setItem(storageKey, JSON.stringify(data)); } catch {} if (student && firebaseReady) saveStudentProgress(student.uid, data, student.leaderboardId).catch(() => {}); }
 function loadProgress(key, remote = {}) { storageKey = key; const local = readProgress(key); progress.done = { ...(remote.done || {}), ...(local.done || {}) }; progress.stars = Math.max(remote.stars || 0, local.stars || 0); save(); }
 function unlocked(w, s) { return w === 0 && s === 0 || Boolean(progress.done[`${w}-${s-1}`]) || w > 0 && s === 0 && Boolean(progress.done[`${w-1}-9`]); }
 function totalDone() { return Object.keys(progress.done).length; }
 function renderHome() {
   progress.current = null;
   if (!location.hash) history.replaceState(null, '', '#/peta');
+  if (location.hash === '#/peringkat') return renderLeaderboard();
   const route = location.hash.match(/^#\/dunia\/(\d+)$/);
   if (route && worlds[Number(route[1]) - 1]) { const wi = Number(route[1]) - 1; if (wi > 0 && !progress.done[`${wi-1}-9`]) { renderGalaxy(); showMapNotice(`Selesaikan ${worlds[wi-1].name} untuk membuka planet ini.`); return; } if (!student && !guestSession) { selectedWorld = wi; renderLogin(); return; } return renderWorld(wi); }
   renderGalaxy();
 }
-function renderAccount() { return `<header class="topbar"><a class="brand" href="#/peta"><span class="brand-mark">N</span><span>numeria</span></a><div class="top-stats"><span class="stat"><span class="star">★</span> ${progress.stars}</span>${student ? `<button class="account-chip" id="account" aria-label="Keluar dari akun">${student.displayName || student.username} · Keluar</button>` : ''}</div></header>`; }
+function renderAccount() { return `<header class="topbar"><a class="brand" href="#/peta"><span class="brand-mark">N</span><span>numeria</span></a><div class="top-stats"><a class="leaderboard-link" href="#/peringkat" aria-label="Papan peringkat" title="Papan peringkat">🏆</a><span class="stat"><span class="star">★</span> ${progress.stars}</span>${student ? `<button class="account-chip" id="account" aria-label="Keluar dari akun">${student.displayName || student.username} · Keluar</button>` : ''}</div></header>`; }
 function bindAccount() { document.querySelector('#account')?.addEventListener('click', async () => { await signOutStudent(); student = null; guestSession = false; loadProgress(GUEST_KEY); navigate('#/peta'); }); }
 function renderGalaxy() {
   app.innerHTML = `<main class="shell map-shell galaxy-level">${renderAccount()}<section class="map-intro galaxy-intro"><div><p class="eyebrow">NUMERIA · PETA GALAKSI</p><h1>Setiap angka <em>punya cerita.</em></h1><p>${totalDone()} stage selesai</p></div><div class="map-progress-badge"><strong>${totalDone()}<small>/${worlds.length*10}</small></strong><span>stage selesai</span></div></section><section class="galaxy-guide" aria-label="Cara menjelajah Numeria"><div class="galaxy-guide-heading"><span class="guide-emblem" aria-hidden="true">✦</span><div><small>PERJALANAN NUMERIA</small><strong>Satu planet, satu tantangan baru</strong></div></div><ol class="galaxy-guide-steps"><li><span>01</span>Geser peta</li><li><span>02</span>Pilih planet</li><li><span>03</span>Pecahkan soal</li></ol></section><div class="galaxy-viewport" id="galaxy-viewport" tabindex="0" aria-label="Peta galaksi yang bisa digeser"><div class="galaxy-canvas"><svg class="galaxy-routes" viewBox="0 0 1120 460" aria-hidden="true"><path d="M140 230 C230 210 265 130 360 130 S485 190 570 280 S700 220 790 135 S910 170 1000 255"/><path class="route-dots" d="M140 230 C230 210 265 130 360 130 S485 190 570 280 S700 220 790 135 S910 170 1000 255"/><circle cx="255" cy="178" r="7"/><circle cx="475" cy="182" r="6"/><circle cx="690" cy="226" r="7"/><circle cx="895" cy="190" r="6"/></svg>${worlds.map((world, wi) => { const places = [[140,230],[360,130],[570,280],[790,135],[1000,255]], [x,y] = places[wi], locked = wi > 0 && !progress.done[`${wi-1}-9`], done = world.stages.filter((_, si) => progress.done[`${wi}-${si}`]).length; return `<button class="galaxy-planet ${world.color} ${locked ? 'locked' : ''}" style="--planet-x:${x}px;--planet-y:${y}px;--planet-delay:${wi*90}ms" data-planet="${wi}" aria-label="${world.name}, ${locked ? 'terkunci' : `${done} dari 10 stage selesai`}"><span class="planet-art">${planetDiorama(wi)}</span>${locked ? '<span class="planet-lock" aria-hidden="true">⌑</span>' : ''}<span class="planet-label"><small>DUNIA ${String(wi+1).padStart(2,'0')}</small><strong>${world.name}</strong><em>${locked ? 'Selesaikan dunia sebelumnya' : `${done}/10 stage`}</em></span></button>`; }).join('')}</div></div><div class="map-notice" id="map-notice" role="status" aria-live="polite"></div><footer><span>NUMERIA</span><span>Satu langkah, satu ide baru ✦</span></footer></main>`;
   bindAccount();
   document.querySelectorAll('[data-planet]').forEach(button => button.addEventListener('click', () => { if (!galaxyMoved) enterPlanet(Number(button.dataset.planet), button); }));
   bindGalaxyDrag();
+}
+function renderLeaderboard() {
+  app.innerHTML = `<main class="shell leaderboard-page">${renderAccount()}<button class="leaderboard-back" id="leaderboard-back">← Kembali ke peta</button><section class="leaderboard-heading"><p class="eyebrow">PAPAN PERINGKAT GLOBAL</p><h1>Penjelajah <em>teratas</em></h1><p>Urutan ditentukan dari jumlah bintang yang terkumpul.</p></section><section class="leaderboard-card"><div class="leaderboard-title"><span>🏆</span><div><strong>Peringkat bintang</strong><small>20 penjelajah teratas</small></div></div><div id="leaderboard-list" class="leaderboard-list" aria-live="polite"><p class="leaderboard-message">Memuat peringkat…</p></div></section><p class="leaderboard-note">Nama ditampilkan sebagai samaran.${student ? '' : ' <button id="leaderboard-login">Masuk agar bintangmu ikut dihitung</button>'}</p><footer><span>NUMERIA</span><span>Satu langkah, satu ide baru ✦</span></footer></main>`;
+  bindAccount();
+  document.querySelector('#leaderboard-back').addEventListener('click', () => navigate('#/peta'));
+  document.querySelector('#leaderboard-login')?.addEventListener('click', () => renderLogin());
+  loadLeaderboard();
+}
+async function loadLeaderboard() {
+  const list = document.querySelector('#leaderboard-list');
+  if (!firebaseReady) { list.innerHTML = '<p class="leaderboard-message">Papan peringkat belum aktif. Hubungkan Firebase untuk memuat data global.</p>'; return; }
+  try {
+    const entries = await getLeaderboard();
+    if (!list.isConnected) return;
+    list.replaceChildren();
+    if (!entries.length) { list.innerHTML = '<p class="leaderboard-message">Belum ada bintang tercatat. Jadilah penjelajah pertama!</p>'; return; }
+    entries.forEach((entry, index) => {
+      const row = document.createElement('article'); row.className = `leaderboard-row ${entry.id === student?.leaderboardId ? 'current-player' : ''}`;
+      const place = document.createElement('span'); place.className = `leaderboard-rank rank-${index + 1}`; place.textContent = String(index + 1).padStart(2, '0');
+      const alias = document.createElement('strong'); alias.textContent = entry.alias;
+      const stars = document.createElement('span'); stars.className = 'leaderboard-stars'; stars.textContent = `★ ${entry.stars}`;
+      row.append(place, alias, stars); list.append(row);
+    });
+  } catch { if (list.isConnected) list.innerHTML = '<p class="leaderboard-message">Peringkat belum dapat dimuat. Coba lagi saat koneksi pulih.</p>'; }
 }
 function renderWorld(wi) {
   const world = worlds[wi], completedInWorld = world.stages.filter((_, si) => progress.done[`${wi}-${si}`]).length;
@@ -70,8 +95,8 @@ async function submitLogin(event) {
     const user = loginMode === 'create' ? await createStudent(username, pin, { displayName: String(form.get('displayName')).trim(), gradeGroup: String(form.get('gradeGroup')) }) : await signInStudent(username, pin);
     try { if (form.get('remember')) localStorage.setItem('numeria-remember-username', username); else localStorage.removeItem('numeria-remember-username'); } catch {}
     student = { uid: user.uid, username, displayName: String(form.get('displayName') || username).trim() };
-    const remote = await getStudentProgress(user.uid); student.displayName = remote.displayName || student.displayName; loadProgress(`numeria-progress-${user.uid}`, remote.progress || {});
-    if (loginMode === 'create') await saveStudentProgress(user.uid, { done: {}, stars: 0 });
+    const remote = await getStudentProgress(user.uid); student.displayName = remote.displayName || student.displayName; student.leaderboardId = remote.leaderboardId; loadProgress(`numeria-progress-${user.uid}`, remote.progress || {});
+    if (loginMode === 'create') await saveStudentProgress(user.uid, { done: {}, stars: 0 }, student.leaderboardId);
     authFlow = false; guestSession = false; const destination = selectedWorld; selectedWorld = null; navigate(destination === null ? '#/peta' : `#/dunia/${destination+1}`);
   } catch (error) { authFlow = false; output.textContent = error.code === 'auth/email-already-in-use' ? 'Nama pengguna ini sudah dipakai.' : error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' ? 'Nama pengguna atau PIN tidak cocok.' : 'Belum berhasil. Periksa koneksi atau coba lagi.'; }
 }
@@ -130,4 +155,4 @@ function finishStage() {
 window.addEventListener('hashchange', renderHome);
 renderHome();
 if ('serviceWorker' in navigator && import.meta.env.PROD) navigator.serviceWorker.register('/sw.js');
-if (firebaseReady) watchStudent(async user => { if (!user || student || authFlow) return; student = { uid: user.uid, username: user.email?.split('@')[0] || 'penjelajah' }; const profile = await getStudentProgress(user.uid).catch(() => ({})); student.displayName = profile.displayName || student.username; loadProgress(`numeria-progress-${user.uid}`, profile.progress || {}); const destination = selectedWorld; selectedWorld = null; navigate(destination === null ? '#/peta' : `#/dunia/${destination+1}`); });
+if (firebaseReady) watchStudent(async user => { if (!user || student || authFlow) return; student = { uid: user.uid, username: user.email?.split('@')[0] || 'penjelajah' }; const profile = await getStudentProgress(user.uid).catch(() => ({})); student.displayName = profile.displayName || student.username; student.leaderboardId = profile.leaderboardId; loadProgress(`numeria-progress-${user.uid}`, profile.progress || {}); const destination = selectedWorld, currentRoute = location.hash; selectedWorld = null; navigate(destination !== null ? `#/dunia/${destination+1}` : currentRoute === '#/peringkat' ? '#/peringkat' : '#/peta'); });
