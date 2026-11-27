@@ -7,7 +7,7 @@
 .map-stage-copy strong{font-size:10px;line-height:1.25}
 .map-stage.active .map-stage-orb{filter:drop-shadow(0 0 9px #5b91607a) drop-shadow(0 7px 5px #334b3020);animation:orb-float 3s ease-in-out infinite}
 .map-stage.finished .map-stage-orb{filter:drop-shadow(0 0 6px #78aa7270)}
-.map-stage.finished .map-stage-orb:after{content:'✓';position:absolute;right:0;bottom:0;width:24px;height:24px;border:2px solid white;border-radius:50%;display:grid;place-items:center;background:#54895f;color:white;font:800 13px Manrope;box-shadow:0 2px 5px #345b3760}
+.map-stage.finished .map-stage-orb:after{content:'✓';position:absolute;right:0;bottom:0;width:24px;height:24px;border:2px solid white;border-radius:50%;display:grid;place-items:center;background:#54895f;color:white;font:800 13px Fredoka;box-shadow:0 2px 5px #345b3760}
 .map-stage.locked .map-stage-orb{filter:grayscale(.55) saturate(.55);opacity:.68}
 .map-stage:not(.locked):hover .map-stage-orb{transform:translateY(-3px) scale(1.04)}
 .map-stage:focus-visible{outline:3px solid #537e5c;outline-offset:4px;border-radius:18px}
@@ -50,7 +50,7 @@ body{background:#f3faf7;color:var(--map-ink)}
 .map-stage:not(.locked):hover{transform:translate(-50%,calc(-50% - 2px));background:#ffffff38}
 .map-stage:active{transform:translate(-50%,-50%) scale(.96)}
 .map-stage-orb{width:94px;height:94px;filter:drop-shadow(0 7px 6px #21453526)}
-.map-stage-number{position:absolute;top:2px;right:calc(50% - 53px);z-index:2;min-width:28px;height:27px;padding:0 5px;display:grid;place-items:center;border:2px solid white;border-radius:11px;background:#0c806c;color:white;font:800 10px Manrope;box-shadow:0 3px 8px #164b3f2a}
+.map-stage-number{position:absolute;top:2px;right:calc(50% - 53px);z-index:2;min-width:28px;height:27px;padding:0 5px;display:grid;place-items:center;border:2px solid white;border-radius:11px;background:#0c806c;color:white;font:800 10px Fredoka;box-shadow:0 3px 8px #164b3f2a}
 .map-stage.locked .map-stage-number{background:#fff;color:#788c86;border-color:#e3eee8}
 .map-stage.finished .map-stage-number{background:#21a47b;color:#fff}
 .map-stage-copy{min-height:40px;background:#ffffffed;border:1px solid #dcebe3;border-radius:12px;box-shadow:0 4px 12px #28574512}

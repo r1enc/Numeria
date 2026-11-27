@@ -25,7 +25,7 @@
 .galaxy-planet:hover .planet-art,.galaxy-planet:focus-visible .planet-art{transform:translateY(-5px) scale(1.05)}
 .planet-label{max-width:174px;padding:5px 10px 6px;display:grid;gap:1px;text-align:center;border:1px solid #9fafd94a;border-radius:12px;background:#0d1735e8;box-shadow:0 5px 13px #02061540}
 .planet-label small{font-size:8px;letter-spacing:1.3px;font-weight:800;color:#99b9d7}
-.planet-label strong{font:750 12px/1.2 Manrope,sans-serif;color:#f4f7ff}
+.planet-label strong{font:750 12px/1.2 Fredoka,sans-serif;color:#f4f7ff}
 .planet-label em{font-size:9px;line-height:1.25;color:#aabbd5;font-style:normal}
 .galaxy-planet.locked .planet-art{opacity:.48}
 .galaxy-planet.locked .planet-label{border-color:#7c83a044;background:#0e1429d9}
@@ -46,7 +46,7 @@
 .world-toolbar i{font-style:normal;color:#64d5de;padding:0 3px}
 .world-intro{padding:13px 3px 18px;color:#edf4ff}
 .world-intro .world-kicker{color:#8ddde7}
-.world-intro h1{font:800 clamp(22px,4vw,30px)/1.15 Manrope,sans-serif;margin:4px 0;letter-spacing:-.8px}
+.world-intro h1{font:800 clamp(22px,4vw,30px)/1.15 Fredoka,sans-serif;margin:4px 0;letter-spacing:-.8px}
 .world-intro p{font-size:11px;color:#aebbd5;margin:0}
 .world-level .map-progress-label{color:#ffda83}
 .world-level .map-progress-label small{color:#b7c6df}
@@ -63,7 +63,7 @@
 .world-scenery{position:absolute;inset:0;display:flex;justify-content:space-around;align-items:center;color:#cad9ff27;font-size:28px;letter-spacing:18px;pointer-events:none}
 .world-track .map-stage{left:var(--x);top:var(--y);width:146px;min-height:142px;gap:4px;padding:4px 2px;border-radius:20px;scroll-snap-align:center;}
 .world-track .map-stage-orb{width:82px;height:82px}
-.world-track .map-stage-number{position:absolute;top:-2px;right:calc(50% - 51px);z-index:2;min-width:29px;height:27px;padding:0 5px;display:grid;place-items:center;border:2px solid #dce8ff;border-radius:10px;background:#253d68;color:white;font:800 10px Manrope;box-shadow:0 3px 10px #0307168a}
+.world-track .map-stage-number{position:absolute;top:-2px;right:calc(50% - 51px);z-index:2;min-width:29px;height:27px;padding:0 5px;display:grid;place-items:center;border:2px solid #dce8ff;border-radius:10px;background:#253d68;color:white;font:800 10px Fredoka;box-shadow:0 3px 10px #0307168a}
 .world-track .map-stage.active .map-stage-number{background:#5bdbd1;color:#082331;border-color:#efffff}
 .world-track .map-stage.finished .map-stage-number{background:#ffc95e;color:#35250b;border-color:#fff2ca}
 .world-track .map-stage.locked .map-stage-number{background:#2a3044;color:#c4cada;border-color:#9da7bc}
@@ -76,7 +76,7 @@
 .world-controls{min-height:64px}
 .world-level .map-notice,.galaxy-level .map-notice{position:fixed;z-index:5;bottom:18px;left:50%;transform:translate(-50%,8px);margin:0;background:#19264a;border:1px solid #7d8fb45c;color:#f4f7ff;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
 .world-level .map-notice.visible,.galaxy-level .map-notice.visible{opacity:1;transform:translate(-50%,0)}
-.world-level .map-heading h2{font-family:Manrope,sans-serif}
+.world-level .map-heading h2{font-family:Fredoka,sans-serif}
 @keyframes planet-arrive{from{opacity:0;transform:translate(-50%,-46%) scale(.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @media(max-width:700px){.galaxy-level,.world-level{width:calc(100% - 24px);padding-bottom:12px}.galaxy-intro{padding:20px 2px 13px}.galaxy-intro h1{font-size:25px}.galaxy-intro>div:first-child>p:last-child{font-size:10px}.galaxy-viewport{height:min(58dvh,500px);min-height:360px;border-radius:21px}.galaxy-canvas{width:1080px;height:600px}.galaxy-planet{width:168px;min-height:155px}.planet-art{width:118px;height:106px}.planet-label{max-width:160px;padding:5px 8px}.planet-label strong{font-size:11px}.planet-lock{right:22px}.galaxy-tabs{gap:7px}.galaxy-tabs .world-tab{flex-basis:51px;height:53px;min-height:53px}.galaxy-controls,.world-controls{gap:9px;min-height:56px}.galaxy-controls p,.world-controls p{font-size:10px}.world-toolbar{padding-top:11px}.world-intro{padding:11px 2px 15px}.world-map-scroll{width:calc(100% + 24px);margin-left:-12px;border-radius:20px}.world-track{width:1480px;height:360px}.world-track .map-scene{height:360px}.world-track .map-stage{width:138px;min-height:138px}.world-track .map-stage-orb{width:76px;height:76px}.world-track .map-stage-copy{width:130px;max-width:130px}.world-level footer,.galaxy-level footer{padding:14px 2px 8px}}
 @media(max-width:360px){.galaxy-level,.world-level{width:calc(100% - 18px)}.galaxy-intro h1{font-size:23px}.galaxy-viewport{min-height:340px}.world-map-scroll{width:calc(100% + 18px);margin-left:-9px}.world-toolbar{font-size:9px}}
@@ -102,7 +102,7 @@
 .guide-emblem{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border:1px solid #72d5df58;border-radius:11px;background:#142c45;color:#83e1e8;font-size:17px}
 .galaxy-guide-heading div{display:grid;gap:2px}
 .galaxy-guide-heading small{color:#90a7ce;font-size:8px;font-weight:800;letter-spacing:1.3px}
-.galaxy-guide-heading strong{color:#eff5ff;font:750 13px/1.2 Manrope,sans-serif}
+.galaxy-guide-heading strong{color:#eff5ff;font:750 13px/1.2 Fredoka,sans-serif}
 .galaxy-guide-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
 .galaxy-guide-steps li{min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid #6679a03b;border-radius:12px;background:#0d1830;color:#c5d2eb;font-size:9px;font-weight:650;text-align:center}
 .galaxy-guide-steps li span{width:21px;height:21px;display:grid;place-items:center;border-radius:7px;background:#1a2e4a;color:#7ddde5;font-size:8px;font-weight:800}
@@ -112,7 +112,7 @@
 .leaderboard-back{align-self:flex-start;margin:18px 0 4px;padding:9px 12px;border:1px solid #566486;border-radius:12px;background:#18223f;color:#dbeafe;font-size:12px;font-weight:700}
 .leaderboard-heading{padding:22px 2px 18px}
 .leaderboard-heading .eyebrow{color:#91a7cc}
-.leaderboard-heading h1{margin:0;color:#f1f5f9;font:800 clamp(27px,5vw,38px)/1.15 Manrope,sans-serif;letter-spacing:-1.3px}
+.leaderboard-heading h1{margin:0;color:#f1f5f9;font:800 clamp(27px,5vw,38px)/1.15 Fredoka,sans-serif;letter-spacing:-1.3px}
 .leaderboard-heading h1 em{color:#ffc857;font-style:normal}
 .leaderboard-heading>p:last-child{margin:8px 0 0;color:#a8bad9;font-size:13px}
 .leaderboard-card{overflow:hidden;border:1px solid #60719866;border-radius:20px;background:linear-gradient(145deg,#182440,#111b34);box-shadow:0 15px 38px #050a183d}
