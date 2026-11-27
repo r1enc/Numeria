@@ -12,7 +12,7 @@ const progress = { done: saved.done || {}, stars: saved.stars || 0, current: nul
 const app = document.querySelector('#app');
 let selectedWorld = null, guestSession = false;
 const mapPoints = [[90,65],[230,28],[370,62],[510,28],[650,65],[790,28],[930,62],[1070,28],[1210,62],[1350,28]];
-function save() { const data = { done: progress.done, stars: progress.stars }; try { localStorage.setItem(storageKey, JSON.stringify(data)); } catch {} if (student && firebaseReady) saveStudentProgress(student.uid, data, student.leaderboardId).catch(() => {}); }
+function save() { const data = { done: progress.done, stars: progress.stars }; try { localStorage.setItem(storageKey, JSON.stringify(data)); } catch {} if (student && firebaseReady) saveStudentProgress(student.uid, data, student.leaderboardId, student.username).catch(() => {}); }
 function loadProgress(key, remote = {}) { storageKey = key; const local = readProgress(key); progress.done = { ...(remote.done || {}), ...(local.done || {}) }; progress.stars = Math.max(remote.stars || 0, local.stars || 0); save(); }
 function unlocked(w, s) { return w === 0 && s === 0 || Boolean(progress.done[`${w}-${s-1}`]) || w > 0 && s === 0 && Boolean(progress.done[`${w-1}-9`]); }
 function totalDone() { return Object.keys(progress.done).length; }
@@ -33,7 +33,7 @@ function renderGalaxy() {
   bindGalaxyDrag();
 }
 function renderLeaderboard() {
-  app.innerHTML = `<main class="shell leaderboard-page">${renderAccount()}<button class="leaderboard-back" id="leaderboard-back">← Kembali ke peta</button><section class="leaderboard-heading"><p class="eyebrow">PAPAN PERINGKAT GLOBAL</p><h1>Penjelajah <em>teratas</em></h1><p>Urutan ditentukan dari jumlah bintang yang terkumpul.</p></section><section class="leaderboard-card"><div class="leaderboard-title"><span>🏆</span><div><strong>Peringkat bintang</strong><small>20 penjelajah teratas</small></div></div><div id="leaderboard-list" class="leaderboard-list" aria-live="polite"><p class="leaderboard-message">Memuat peringkat…</p></div></section><p class="leaderboard-note">Nama ditampilkan sebagai samaran.${student ? '' : ' <button id="leaderboard-login">Masuk agar bintangmu ikut dihitung</button>'}</p><footer><span>NUMERIA</span><span>Satu langkah, satu ide baru ✦</span></footer></main>`;
+  app.innerHTML = `<main class="shell leaderboard-page">${renderAccount()}<button class="leaderboard-back" id="leaderboard-back">← Kembali ke peta</button><section class="leaderboard-heading"><p class="eyebrow">PAPAN PERINGKAT GLOBAL</p><h1>Penjelajah <em>teratas</em></h1><p>Urutan ditentukan dari jumlah bintang yang terkumpul.</p></section><section class="leaderboard-card"><div class="leaderboard-title"><span>🏆</span><div><strong>Peringkat bintang</strong><small>20 penjelajah teratas</small></div></div><div id="leaderboard-list" class="leaderboard-list" aria-live="polite"><p class="leaderboard-message">Memuat peringkat…</p></div></section><p class="leaderboard-note">Username akun ditampilkan di papan peringkat.${student ? '' : ' <button id="leaderboard-login">Masuk agar bintangmu ikut dihitung</button>'}</p><footer><span>NUMERIA</span><span>Satu langkah, satu ide baru ✦</span></footer></main>`;
   bindAccount();
   document.querySelector('#leaderboard-back').addEventListener('click', () => navigate('#/peta'));
   document.querySelector('#leaderboard-login')?.addEventListener('click', () => renderLogin());
@@ -46,11 +46,11 @@ async function loadLeaderboard() {
     const entries = await getLeaderboard();
     if (!list.isConnected) return;
     list.replaceChildren();
-    if (!entries.length) { list.innerHTML = '<p class="leaderboard-message">Belum ada bintang tercatat. Jadilah penjelajah pertama!</p>'; return; }
+    if (!entries.length) { list.innerHTML = '<p class="leaderboard-message">Belum ada username yang tersinkron. Masuk ke akun agar progresmu tercatat.</p>'; return; }
     entries.forEach((entry, index) => {
       const row = document.createElement('article'); row.className = `leaderboard-row ${entry.id === student?.leaderboardId ? 'current-player' : ''}`;
       const place = document.createElement('span'); place.className = `leaderboard-rank rank-${index + 1}`; place.textContent = String(index + 1).padStart(2, '0');
-      const alias = document.createElement('strong'); alias.textContent = entry.alias;
+      const alias = document.createElement('strong'); alias.textContent = entry.username;
       const stars = document.createElement('span'); stars.className = 'leaderboard-stars'; stars.textContent = `★ ${entry.stars}`;
       row.append(place, alias, stars); list.append(row);
     });
@@ -96,7 +96,7 @@ async function submitLogin(event) {
     try { if (form.get('remember')) localStorage.setItem('numeria-remember-username', username); else localStorage.removeItem('numeria-remember-username'); } catch {}
     student = { uid: user.uid, username, displayName: String(form.get('displayName') || username).trim() };
     const remote = await getStudentProgress(user.uid); student.displayName = remote.displayName || student.displayName; student.leaderboardId = remote.leaderboardId; loadProgress(`numeria-progress-${user.uid}`, remote.progress || {});
-    if (loginMode === 'create') await saveStudentProgress(user.uid, { done: {}, stars: 0 }, student.leaderboardId);
+    if (loginMode === 'create') await saveStudentProgress(user.uid, { done: {}, stars: 0 }, student.leaderboardId, student.username);
     authFlow = false; guestSession = false; const destination = selectedWorld; selectedWorld = null; navigate(destination === null ? '#/peta' : `#/dunia/${destination+1}`);
   } catch (error) { authFlow = false; output.textContent = error.code === 'auth/email-already-in-use' ? 'Nama pengguna ini sudah dipakai.' : error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' ? 'Nama pengguna atau PIN tidak cocok.' : 'Belum berhasil. Periksa koneksi atau coba lagi.'; }
 }
@@ -155,4 +155,4 @@ function finishStage() {
 window.addEventListener('hashchange', renderHome);
 renderHome();
 if ('serviceWorker' in navigator && import.meta.env.PROD) navigator.serviceWorker.register('/sw.js');
-if (firebaseReady) watchStudent(async user => { if (!user || student || authFlow) return; student = { uid: user.uid, username: user.email?.split('@')[0] || 'penjelajah' }; const profile = await getStudentProgress(user.uid).catch(() => ({})); student.displayName = profile.displayName || student.username; student.leaderboardId = profile.leaderboardId; loadProgress(`numeria-progress-${user.uid}`, profile.progress || {}); const destination = selectedWorld, currentRoute = location.hash; selectedWorld = null; navigate(destination !== null ? `#/dunia/${destination+1}` : currentRoute === '#/peringkat' ? '#/peringkat' : '#/peta'); });
+if (firebaseReady) watchStudent(async user => { if (!user || student || authFlow) return; student = { uid: user.uid, username: user.email?.split('@')[0] || 'penjelajah' }; const profile = await getStudentProgress(user.uid).catch(() => ({})); student.username = profile.username || student.username; student.displayName = profile.displayName || student.username; student.leaderboardId = profile.leaderboardId; loadProgress(`numeria-progress-${user.uid}`, profile.progress || {}); const destination = selectedWorld, currentRoute = location.hash; selectedWorld = null; navigate(destination !== null ? `#/dunia/${destination+1}` : currentRoute === '#/peringkat' ? '#/peringkat' : '#/peta'); });

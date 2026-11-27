@@ -31,6 +31,6 @@ Do not put service-account credentials in this frontend. Firestore rules restric
 - Local star and completion progress
 - Basic installable/offline app shell
 - Username + PIN account screen and per-account Firestore progress sync (requires Firebase project configuration)
-- Global leaderboard showing the 20 highest star totals for signed-in student accounts (requires publishing the updated Firestore rules)
+- Global leaderboard showing the 20 highest star totals and usernames for signed-in student accounts (usernames are public on the board; older accounts need to sign in once to attach their username; requires publishing the updated Firestore rules)
 
 Teacher tools, tournament mode, consent flow, and validated pre/post assessment are not implemented yet. Leaderboard stars are client-reported and are not independently validated, so they should not be used as evidence of learning. Question generation and level calibration need review with teachers and children before using the scores as evidence of learning.

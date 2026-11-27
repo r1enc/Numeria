@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { collection, doc, getDoc, getDocs, initializeFirestore, limit, orderBy, persistentLocalCache, persistentMultipleTabManager, query, serverTimestamp, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, initializeFirestore, orderBy, persistentLocalCache, persistentMultipleTabManager, query, serverTimestamp, setDoc } from 'firebase/firestore';
 
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -35,11 +35,11 @@ export async function getStudentProgress(uid) {
   }
   return profile;
 }
-export async function saveStudentProgress(uid, progress, leaderboardId) {
+export async function saveStudentProgress(uid, progress, leaderboardId, username) {
   await setDoc(doc(db, 'students', uid), { progress, updatedAt: serverTimestamp() }, { merge: true });
-  if (leaderboardId) await setDoc(doc(db, 'leaderboard', leaderboardId), { alias: `Penjelajah ${leaderboardId.slice(-4).toUpperCase()}`, stars: progress.stars, updatedAt: serverTimestamp() }, { merge: true });
+  if (leaderboardId && username) await setDoc(doc(db, 'leaderboard', leaderboardId), { username, stars: progress.stars, updatedAt: serverTimestamp() });
 }
 export async function getLeaderboard() {
-  const snapshot = await getDocs(query(collection(db, 'leaderboard'), orderBy('stars', 'desc'), limit(20)));
-  return snapshot.docs.map(entry => ({ id: entry.id, ...entry.data() }));
+  const snapshot = await getDocs(query(collection(db, 'leaderboard'), orderBy('stars', 'desc')));
+  return snapshot.docs.map(entry => ({ id: entry.id, ...entry.data() })).filter(entry => typeof entry.username === 'string' && entry.username).slice(0, 20);
 }
